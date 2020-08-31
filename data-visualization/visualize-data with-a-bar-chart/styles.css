@@ -1,0 +1,19 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Open Sans", sans-serif;
+  scroll-behavior: smooth;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(189, 192, 0, 0.212);
+  align-items: center;
+}
+
+
+#footer1 {
+ color:red;
+}
