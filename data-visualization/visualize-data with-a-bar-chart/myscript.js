@@ -12,13 +12,11 @@ let svgChart = d3
   .attr("height", height)
   .style("background", "gray");
 
-// fetch raw data from url 
-let rawData;
-fetch(
-  "https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/GDP-data.json"
-).then((response)=> {
-    response.text().then((text)=>{
-        rawData=text;
-        console.log(rawData);
-    })
-})
+// get raw data from url
+d3.json(
+  "https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/GDP-data.json",
+  function(error, rawData) {
+    console.log(rawData);
+    if (error) return console.warn(error);
+  }
+);
