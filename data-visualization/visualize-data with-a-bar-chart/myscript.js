@@ -12,10 +12,8 @@ let svgChart = d3
   .attr("height", height + 60)
   .style("background", "gray");
 
-
-
 let minDate, maxDate;
-// get raw data from url
+// Get raw data from url
 d3.json(
   "https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/GDP-data.json",
   function(error, rawData) {
@@ -23,13 +21,29 @@ d3.json(
     console.log(rawData);
     console.log("test");
 
-  
+    //////////////////////////////////
+    ////////////  XAXIS  ////////////
+    ////////////////////////////////
 
-    // calculate max and min years for x scale
-    maxDate = new Date(data.to_date);
-    minDate = new Date(data.from_date);
-    
-    
-   
+    // Calculate max and min years for x scale
+    maxDate = new Date(rawData.to_date);
+    minDate = new Date(rawData.from_date);
+    console.log(minDate.getFullYear(), maxDate.getFullYear());
+      //maxDate : 2015 minDate :1947
+
+    //Create scale for x
+    let xScale = d3
+      .scaleTime()
+      .domain([minDate, maxDate])
+      .range([0, width]);
+    //Add scales to axis
+    let xAxis = d3.axisBottom().scale(xScale);
+
+    // Append group and insert axis
+    let xAxisGroup = svgChart
+      .append("g")
+      .call(xAxis)
+      .attr("transform", "translate(50, 500)");
+
   }
 );
