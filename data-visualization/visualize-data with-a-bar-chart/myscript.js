@@ -29,7 +29,7 @@ d3.json(
     maxDate = new Date(rawData.to_date);
     minDate = new Date(rawData.from_date);
     console.log(minDate.getFullYear(), maxDate.getFullYear());
-      //maxDate : 2015 minDate :1947
+    //maxDate : 2015 minDate :1947
 
     //Create scale for x
     let xScale = d3
@@ -43,7 +43,39 @@ d3.json(
     let xAxisGroup = svgChart
       .append("g")
       .call(xAxis)
-      .attr("transform", "translate(50, 500)");
+      .attr("transform", "translate(50, 510)");
 
+    //////////////////////////////////
+    ////////////  YSCALES  //////////
+    ////////////////////////////////
+
+    //get dates from rawData
+    let datasGDP = rawData.data.map((item) => item[1]);
+    // console.log(datesGDP);
+    let scaledGDP = [];
+    // Calculate max and min GDP for y scale
+    let gdpMin = d3.min(datasGDP);
+    let gdpMax = d3.max(datasGDP);
+    //Create scale for y
+    let linearScale = d3
+      .scaleLinear()
+      .domain([0, gdpMax])
+      .range([0, height]);
+
+    scaledGDP = datasGDP.map(function(item) {
+      return linearScale(item);
+    });
+    
+    let yAxisScale = d3
+      .scaleLinear()
+      .domain([0, gdpMax])
+      .range([height, 0]);
+    //Add scales to axis
+    let yAxis = d3.axisLeft(yAxisScale);
+    //Append group and insert axis
+    let yAxisGroup = svgChart
+      .append("g")
+      .call(yAxis)
+      .attr("transform", "translate(50, 10)");
   }
 );
