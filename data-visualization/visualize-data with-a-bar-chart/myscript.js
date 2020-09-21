@@ -158,12 +158,20 @@ d3.json(
           .style("left", i * barWidth + 30 + "px")
           .style("top", height - 100 + "px")
           .style("transform", "translateX(50px)");
+        d3.select(event.currentTarget).style("fill", "blue");
       })
       .on("mouseout", (d) => {
         tooltip
           .transition()
           .duration(200)
           .style("opacity", 0);
+        d3.select(event.currentTarget).style("fill", (d, i) => {
+          if (d < 400) {
+            return "black";
+          } else {
+            return "red";
+          }
+        });
       });
   }
 );
