@@ -49,7 +49,7 @@ d3.json(
     ////////////  YSCALES  //////////
     ////////////////////////////////
 
-    //get dates from rawData
+    //Get datas from rawData
     let datasGDP = rawData.data.map((item) => item[1]);
     // console.log(datesGDP);
     let scaledGDP = [];
@@ -62,10 +62,8 @@ d3.json(
       .domain([0, gdpMax])
       .range([0, height]);
 
-    scaledGDP = datasGDP.map(function(item) {
-      return linearScale(item);
-    });
-    
+    scaledGDP = datasGDP.map((item) => linearScale(item));
+
     let yAxisScale = d3
       .scaleLinear()
       .domain([0, gdpMax])
@@ -77,5 +75,41 @@ d3.json(
       .append("g")
       .call(yAxis)
       .attr("transform", "translate(50, 10)");
+     //////////////////////////////////
+    ////// CREATE BARS FOR GDP  //////
+    /////////////////////////////////
+    let allYearsDate = rawData.data.map((item) => new Date(item[0]));
+    d3.select("svg")
+      .selectAll("rect")
+      .data(scaledGDP)
+      .enter()
+      .append("rect")
+      // Add date attribute
+      .attr("data-date", (d, i) => {
+        return rawData.data[i][0];
+      })
+      // Add GDP attribute
+      .attr("data-gdp", (d, i) => {
+        return rawData.data[i][1];
+      })
+      // Add x attribute rect
+      .attr("x", (d, i) => xScale(allYearsDate[i]))
+      // Add y attribute for rect
+      .attr("y", (d, i) => height - d + 9)
+      // Add bar width to all bar
+      .attr("width", barWidth - 0.2)
+      // Add bar height to all bar
+      .attr("height", (d) => d)
+      // Fill with color bars %80 and over with red and others black
+      // %100% is 500 because of that we select 400 for %80
+      .style("fill", (d, i) => {
+        if (d < 400) {
+          return "black";
+        } else {
+          return "red";
+        }
+      })
+      // Because of the position of Axis we give transform attr for bars
+      .attr("transform", "translate(50, 0)");
   }
 );
