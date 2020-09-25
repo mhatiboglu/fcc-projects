@@ -12,16 +12,10 @@ let svgChart = d3
   .attr("height", height + 60)
   .style("background", "gray");
 // Create tooltip
-let tooltip = d3
-  .select(".chartHolder")
-  .append("div")
-  .attr("id", "tooltip")
-  .style("opacity", 0);
 
-let minDate, maxDate;
 // Get raw data from url
 d3.json(
-  "https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/GDP-data.json",
+  "https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/cyclist-data.json",
   function(error, rawData) {
     if (error) return console.warn(error);
     console.log(rawData);
@@ -109,13 +103,13 @@ d3.json(
       .data(scaledGDP)
       .enter()
       .append("rect")
-      .attr("class", "bar")
-      // Add date attribute
-      .attr("data-date", (d, i) => {
+      .attr("class", "dot")
+      // Add xvalue attribute
+      .attr("data-xvalue", (d, i) => {
         return rawData.data[i][0];
       })
-      // Add GDP attribute
-      .attr("data-gdp", (d, i) => {
+      // Add yvalue attribute
+      .attr("data-yvalue", (d, i) => {
         return rawData.data[i][1];
       })
       // Add x attribute rect
@@ -137,7 +131,7 @@ d3.json(
       })
       // Because of the position of Axis we give transform attr for bars
       .attr("transform", "translate(50, 0)")
-      
+
       /////////////////////////////////////////////
       ////// Create tooltip when mouseover  //////
       ///////////////////////////////////////////
